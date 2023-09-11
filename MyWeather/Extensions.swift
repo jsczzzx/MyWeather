@@ -72,4 +72,20 @@ extension ResponseBody {
         }
     }
     
+    func toBackground() -> String {
+        if (self.weather[0].id == 800 || self.weather[0].id == 801 || self.weather[0].id == 802) {
+            return "SunnyBg"
+        } else if (self.weather[0].id == 803 || self.weather[0].id == 804) {
+            return "CloudsBg"
+        } else if (self.weather[0].id >= 200 && self.weather[0].id <= 232) {
+            return "ThunderBg"
+        } else if (self.weather[0].id >= 300 && self.weather[0].id <= 321 || self.weather[0].id >= 500 && self.weather[0].id <= 531) {
+            return "RainBg"
+        } else if (self.weather[0].id >= 600 && self.weather[0].id <= 622) {
+            return "SnowBg"
+        } else {
+            return "MistBg"
+        }
+    }
+    
 }

@@ -78,3 +78,45 @@ struct ResponseBody: Decodable {
     }
 }
 
+struct ResponseBody2: Decodable {
+
+    var lat: Double
+    var lon: Double
+    //var weather: [WeatherResponse]
+    var daily: [WeatherResponse]
+    
+    struct CurrentResponse: Decodable {
+        var sunrise: Int
+        var sunset: Int
+        var temp: Double
+        var wind_speed: Double
+        var pressure: Int
+        var humidity: Int
+    }
+
+    
+    
+    struct WeatherResponse: Decodable {
+        var sunrise: Int
+        var sunset: Int
+        var temp: tempResponse
+        var wind_speed: Double
+        var pressure: Int
+        var humidity: Int
+        var weather: weatherResponse
+        
+        struct tempResponse: Decodable {
+            var min: Double
+            var max: Double
+        }
+        
+        struct weatherResponse: Decodable {
+            var id: Double
+            var main: String
+            var description: String
+            var icon: String
+        }
+    }
+    
+
+}

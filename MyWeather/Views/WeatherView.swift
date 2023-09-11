@@ -12,9 +12,12 @@ struct WeatherView: View {
     var body: some View {
         ZStack(alignment: .leading) {
             
-            Image("SunnyBg")
+            Image(weather.toBackground())
                 .resizable()
-                .edgesIgnoringSafeArea(.top)
+                //.aspectRatio(contentMode: .fill)
+                .edgesIgnoringSafeArea(.all)
+                //.aspectRatio(contentMode: .fill)
+
 
             VStack() {
                 VStack(alignment: .leading, spacing: 5) {
