@@ -18,54 +18,42 @@ extension Double {
 
 extension ResponseBody {
     func isDay() -> Bool {
-        var isDay = true
-        let offset = TimeZone.current.secondsFromGMT();
-        let loc = CLLocation.init(latitude: self.coord.lat, longitude: self.coord.lon);
-        let coder = CLGeocoder();
-        coder.reverseGeocodeLocation(loc) { (placemarks, error) in
-            let place = placemarks?.last;
-            
-            let newOffset = place?.timeZone?.secondsFromGMT();
-            
-            let totalOffset = (newOffset ?? 0) - offset
-            
-            let currentTime = Date()
-            let newTime = currentTime.addingTimeInterval(Double(totalOffset))
-            
-            let hour = Calendar.current.component(.hour, from: newTime)
-            
-            if (hour >= 6 && hour < 18) {
-                isDay = true
-            } else {
-                isDay = false
-            }
+        if (self.current.dt >= self.current.sunrise && self.current.dt <= self.current.sunset) {
+            return true
+        } else {
+            return false
         }
-        return isDay
+
     }
         
-    func toWeatherIcon() -> String {
+    func toWeatherIcon(day: Int) -> String {
         let isDay = self.isDay()
-        if (self.weather[0].id == 800) {
-            if (isDay) {
+        var weatherId = self.current.weather[0].id
+        if (day != -1) {
+            //weatherId = self.daily[day].weather[0].id
+        }
+        
+        if (weatherId == 800) {
+            if (isDay || day != -1) {
                 return "SunnyDay"
             } else {
                 return "SunnyNight"
             }
-        } else if (self.weather[0].id == 801 || self.weather[0].id == 802) {
-            if (isDay) {
+        } else if (weatherId == 801 || weatherId == 802) {
+            if (isDay || day != -1) {
                 return "PartlyCloudyDay"
             } else {
                 return "PartlyCloudyNight"
             }
-        } else if (self.weather[0].id == 803 || self.weather[0].id == 804) {
+        } else if (weatherId == 803 || weatherId == 804) {
             return "Cloudy"
-        } else if (self.weather[0].id >= 200 && self.weather[0].id <= 232) {
+        } else if (weatherId >= 200 && weatherId <= 232) {
             return "Thunderstorm"
-        } else if (self.weather[0].id >= 300 && self.weather[0].id <= 321) {
+        } else if (weatherId >= 300 && weatherId <= 321) {
             return "Drizzle"
-        } else if (self.weather[0].id >= 500 && self.weather[0].id <= 531) {
+        } else if (weatherId >= 500 && weatherId <= 531) {
             return "Rain"
-        } else if (self.weather[0].id >= 600 && self.weather[0].id <= 622) {
+        } else if (weatherId >= 600 && weatherId <= 622) {
             return "Snow"
         } else {
             return "Mist"
@@ -73,15 +61,26 @@ extension ResponseBody {
     }
     
     func toBackground() -> String {
-        if (self.weather[0].id == 800 || self.weather[0].id == 801 || self.weather[0].id == 802) {
-            return "SunnyBg"
-        } else if (self.weather[0].id == 803 || self.weather[0].id == 804) {
-            return "CloudsBg"
-        } else if (self.weather[0].id >= 200 && self.weather[0].id <= 232) {
+        let isDay = self.isDay()
+        if (self.current.weather[0].id == 800 || self.current.weather[0].id == 801 || self.current.weather[0].id == 802) {
+            if (isDay) {
+                return "SunnyBg"
+            } else {
+                return "SunnyNightBg"
+            }
+        } else if (self.current.weather[0].id == 803 || self.current.weather[0].id == 804) {
+            if (isDay) {
+                return "CloudsBg"
+            } else {
+                return "CloudyNightBg"
+            }
+        } else if (self.current.weather[0].id >= 200 && self.current.weather[0].id <= 232) {
             return "ThunderBg"
-        } else if (self.weather[0].id >= 300 && self.weather[0].id <= 321 || self.weather[0].id >= 500 && self.weather[0].id <= 531) {
+        } else if (self.current.weather[0].id >= 300 && self.current.weather[0].id <= 321) {
+            return "DrizzleBg"
+        } else if (self.current.weather[0].id >= 500 && self.current.weather[0].id <= 531) {
             return "RainBg"
-        } else if (self.weather[0].id >= 600 && self.weather[0].id <= 622) {
+        } else if (self.current.weather[0].id >= 600 && self.current.weather[0].id <= 622) {
             return "SnowBg"
         } else {
             return "MistBg"

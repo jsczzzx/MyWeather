@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WeatherView: View {
     var weather: ResponseBody
+    var city: String
     var body: some View {
         ZStack(alignment: .leading) {
             
@@ -21,7 +22,7 @@ struct WeatherView: View {
 
             VStack() {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text(weather.name)
+                    Text(city)
                         .bold().font(.title)
                     
                     Text("Today, \(Date().formatted(.dateTime.month().day().hour().minute()))").fontWeight(.light)
@@ -30,14 +31,14 @@ struct WeatherView: View {
 
                 VStack {
                     HStack {
-                        Image(weather.toWeatherIcon())
+                        Image(weather.toWeatherIcon(day: -1))
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 100, height: 100) // Adjust the size as needed
                         
                         Spacer()
                         
-                        Text((weather.main.feels_like - 273.15).roundDouble() + "°")
+                        Text((weather.current.temp - 273.15).roundDouble() + "°")
                             .font(.system(size: 100))
                             .fontWeight(.bold)
                             .padding()
@@ -62,6 +63,6 @@ struct WeatherView: View {
 
 struct WeatherView_Previews: PreviewProvider {
     static var previews: some View {
-        WeatherView(weather: previewWeather)
+        WeatherView(weather: previewWeather, city: "New York")
     }
 }
