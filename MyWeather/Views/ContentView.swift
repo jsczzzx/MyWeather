@@ -11,14 +11,14 @@ struct ContentView: View {
     @StateObject var locationManager = LocationManager()
     var weatherManager = WeatherManager()
 
-    @State var weather: ResponseBody? //What is @State
+    @State var weather: ResponseBody?
     @State var city: String?
     
     var body: some View {
         VStack {
             if let location = locationManager.location {
-                if let weather = weather/*, let city = city*/ {
-                    WeatherView(weather: weather, city: city ?? "")
+                if let weather = weather, let city = city {
+                    WeatherView(weather: weather, city: city )
                 } else {
                     LoadingView()
                         .task {
