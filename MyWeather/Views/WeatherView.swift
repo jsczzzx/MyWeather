@@ -10,6 +10,7 @@ import SwiftUI
 struct WeatherView: View {
     var weather: ResponseBody
     var city: String
+
     var body: some View {
         ZStack(alignment: .leading) {
             
@@ -24,8 +25,9 @@ struct WeatherView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(city)
                         .bold().font(.title)
-                    
-                    Text("Today, \(Date().formatted(.dateTime.month().day().hour().minute()))").fontWeight(.light)
+
+                    Text("\(Date(timeIntervalSince1970: weather.current.dt).formatted(.dateTime.month().day().hour().minute()))")
+                        .fontWeight(.light)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -38,20 +40,68 @@ struct WeatherView: View {
                         
                         Spacer()
                         
-                        Text((weather.current.temp - 273.15).roundDouble() + "°")
+                        Text(weather.current.temp.toCelsius())
                             .font(.system(size: 100))
                             .fontWeight(.bold)
                             .padding()
                     }
                     
-                    Spacer()
+                    VStack(alignment: .leading, spacing: 20) {
+                        VStack(alignment: .leading, spacing: 20) {
+                            HStack(spacing: 20) {
+                                WeatherRow(logo: "thermometer", name: "Feels like", value: "8°")
+                                WeatherRow(logo: "thermometer", name: "Feels like", value: "8°")
+                            }
+                            HStack(spacing: 20) {
+                                WeatherRow(logo: "thermometer", name: "Feels like", value: "8°")
+                                WeatherRow(logo: "thermometer", name: "Feels like", value: "8°")
+                            }
+
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40.0))
+                        
+
+                        
+                        VStack(alignment: .leading, spacing: 0) {
+
+                            DailyRow(weather: weather, day: 0)
+                            
+                            DailyRow(weather: weather, day: 1)
+
+                            DailyRow(weather: weather, day: 2)
+
+                            DailyRow(weather: weather, day: 3)
+
+                            DailyRow(weather: weather, day: 4)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                        //.padding(.bottom, 100)
+                        .foregroundColor(.white)
+                        //.background(.white)
+                        //.cornerRadius(40)
+                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40.0)
+                        )
+                        
+
+                        
+                        Spacer()
+                    }
+                    
+
+                }
+                
+                VStack {
+                    //Spacer()
+                    
+
                 }
                 
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
-
-
 
             
         }

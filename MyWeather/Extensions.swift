@@ -14,6 +14,22 @@ extension Double {
     }
 }
 
+extension Double {
+    func toCelsius() -> String {
+        return (self - 273.15).roundDouble()+"°"
+    }
+}
+
+extension TimeInterval {
+    func toWeekday() -> String {
+        let date = Date(timeIntervalSince1970: self)
+        let calendar = Calendar.current
+        let weekday =  calendar.component(.weekday, from: date)
+        let dict = [1: "Sun", 2: "Mon", 3: "Tue", 4: "Wed", 5: "Thu", 6: "Fri", 7: "Sat"]
+        return dict[weekday] ?? ""
+    }
+}
+
 
 
 extension ResponseBody {
@@ -30,7 +46,7 @@ extension ResponseBody {
         let isDay = self.isDay()
         var weatherId = self.current.weather[0].id
         if (day != -1) {
-            //weatherId = self.daily[day].weather[0].id
+            weatherId = self.daily[day].weather[0].id
         }
         
         if (weatherId == 800) {

@@ -45,9 +45,9 @@ struct ResponseBody: Codable {
     var daily: [DailyResponse]
     
     struct CurrentResponse: Codable {
-        var dt: Int
-        var sunrise: Int
-        var sunset: Int
+        var dt: TimeInterval
+        var sunrise: TimeInterval
+        var sunset: TimeInterval
         var temp: Double
         var wind_speed: Double
         var pressure: Int
@@ -56,8 +56,9 @@ struct ResponseBody: Codable {
     }
 
     struct DailyResponse: Codable {
-        var sunrise: Int
-        var sunset: Int
+        var dt: TimeInterval
+        var sunrise: TimeInterval
+        var sunset: TimeInterval
         var temp: TempResponse
         var wind_speed: Double
         var pressure: Int
