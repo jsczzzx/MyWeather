@@ -49,12 +49,12 @@ struct WeatherView: View {
                     VStack(alignment: .leading, spacing: 20) {
                         VStack(alignment: .leading, spacing: 20) {
                             HStack(spacing: 20) {
-                                WeatherRow(logo: "thermometer", name: "Feels like", value: "8°")
-                                WeatherRow(logo: "thermometer", name: "Feels like", value: "8°")
+                                WeatherRow(logo: "wind", name: "Wind", value: "\(weather.current.wind_speed.rounded()) m/s")
+                                WeatherRow(logo: "drop", name: "Humidity", value: "\(weather.current.humidity) %")
                             }
                             HStack(spacing: 20) {
-                                WeatherRow(logo: "thermometer", name: "Feels like", value: "8°")
-                                WeatherRow(logo: "thermometer", name: "Feels like", value: "8°")
+                                WeatherRow(logo: "sunrise", name: "Sunrise", value: "\(weather.current.sunrise.toHM())")
+                                WeatherRow(logo: "sunset", name: "Sunset", value: "\(weather.current.sunset.toHM())")
                             }
 
                         }

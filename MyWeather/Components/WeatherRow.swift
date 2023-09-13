@@ -31,12 +31,15 @@ struct WeatherRow: View {
                     .bold()
                     .font(.title3)
             }
+            .frame(width: 75, alignment: .leading)
+            //.background(.red)
+
         }
     }
 }
 
 struct WeatherRow_Previews: PreviewProvider {
     static var previews: some View {
-        WeatherRow(logo: "thermometer", name: "Feels like", value: "8°")
+        WeatherRow(logo: "thermometer", name: "Temp", value: "8°")
     }
 }

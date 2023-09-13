@@ -20,7 +20,23 @@ extension Double {
     }
 }
 
+
+
 extension TimeInterval {
+    
+    func toHM() -> String {
+        let date = Date(timeIntervalSince1970: self)
+        let calendar = Calendar.current
+
+        let hours = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+
+        return formatter.string(from: date)
+    }
+    
     func toWeekday() -> String {
         let date = Date(timeIntervalSince1970: self)
         let calendar = Calendar.current
