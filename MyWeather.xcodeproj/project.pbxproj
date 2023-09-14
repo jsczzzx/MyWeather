@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		9002CEDE2AB17A8B000E456B /* DailyRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9002CEDD2AB17A8B000E456B /* DailyRow.swift */; };
 		90372BA82AA178C200113112 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90372BA72AA178C200113112 /* LocationManager.swift */; };
-		90372BAB2AA5053700113112 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90372BAA2AA5053700113112 /* WelcomeView.swift */; };
 		90372BAD2AA5419900113112 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90372BAC2AA5419900113112 /* LoadingView.swift */; };
 		90372BAF2AA7020D00113112 /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90372BAE2AA7020D00113112 /* WeatherManager.swift */; };
 		907056812AB17171007ACF80 /* WeatherRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907056802AB17171007ACF80 /* WeatherRow.swift */; };
@@ -26,7 +25,6 @@
 /* Begin PBXFileReference section */
 		9002CEDD2AB17A8B000E456B /* DailyRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRow.swift; sourceTree = "<group>"; };
 		90372BA72AA178C200113112 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		90372BAA2AA5053700113112 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		90372BAC2AA5419900113112 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		90372BAE2AA7020D00113112 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		907056802AB17171007ACF80 /* WeatherRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRow.swift; sourceTree = "<group>"; };
@@ -65,7 +63,6 @@
 			isa = PBXGroup;
 			children = (
 				9098B3282A9FF5D200B60E30 /* ContentView.swift */,
-				90372BAA2AA5053700113112 /* WelcomeView.swift */,
 				90372BAC2AA5419900113112 /* LoadingView.swift */,
 				90EE09922AAE0D88004AF15B /* WeatherView.swift */,
 			);
@@ -202,7 +199,6 @@
 				90372BAD2AA5419900113112 /* LoadingView.swift in Sources */,
 				90EE09952AAE0F06004AF15B /* ModelData.swift in Sources */,
 				90EE09932AAE0D88004AF15B /* WeatherView.swift in Sources */,
-				90372BAB2AA5053700113112 /* WelcomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +330,7 @@
 				DEVELOPMENT_TEAM = 8ZRC3H2XBQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need to get your location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -363,6 +360,7 @@
 				DEVELOPMENT_TEAM = 8ZRC3H2XBQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need to get your location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

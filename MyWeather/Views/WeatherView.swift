@@ -10,7 +10,9 @@ import SwiftUI
 struct WeatherView: View {
     var weather: ResponseBody
     var city: String
+    @State var currentDate = Date()
 
+    
     var body: some View {
         ZStack(alignment: .leading) {
             
@@ -26,10 +28,19 @@ struct WeatherView: View {
                     Text(city)
                         .bold().font(.title)
 
-                    Text("\(Date(timeIntervalSince1970: weather.current.dt).formatted(.dateTime.month().day().hour().minute()))")
+                    Text("\((currentDate + TimeInterval(weather.timezone_offset)-TimeInterval(TimeZone.current.secondsFromGMT())).formatted(.dateTime.month().day().hour().minute().second()))")
                         .fontWeight(.light)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .onAppear {
+                    // Start a repeating Timer that fires every second to update the date
+                    let timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                        currentDate = Date()
+                    }
+                    
+                    // Make sure to add the timer to the run loop
+                    RunLoop.current.add(timer, forMode: .common)
+                }
 
                 VStack {
                     HStack {

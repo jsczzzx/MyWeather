@@ -21,6 +21,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func requestLocation() {
         isLoading = true
+        manager.requestWhenInUseAuthorization()
         manager.requestLocation()
     }
     

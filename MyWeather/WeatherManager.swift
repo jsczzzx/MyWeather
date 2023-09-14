@@ -41,6 +41,7 @@ struct ResponseBody: Codable {
 
     var lat: Double
     var lon: Double
+    var timezone_offset: Int
     var current: CurrentResponse
     var daily: [DailyResponse]
     

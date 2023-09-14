@@ -9,10 +9,32 @@ import SwiftUI
 
 struct LoadingView: View {
     var body: some View {
-        ProgressView()
-            .progressViewStyle(CircularProgressViewStyle(tint:.white))
-            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity)
-    }
+        ZStack(alignment: .center) {
+            
+            Image("LoadingBg")
+                .resizable()
+                //.frame(width: 100, height: 100)
+                //.aspectRatio(contentMode: .fill)
+                .edgesIgnoringSafeArea(.all)
+                //.aspectRatio(contentMode: .fill)
+
+            VStack(spacing: 20) {
+                Spacer()
+                Image("logo")
+                    .resizable()
+                    .frame(width: 120, height: 120)
+                Text("MyWeather")
+                    .font(.largeTitle)
+            }
+            .padding(50)
+
+
+
+            
+        }
+        .edgesIgnoringSafeArea(.bottom)
+        .background(Color(red:0.4, green:0.4, blue:0.4))
+        .preferredColorScheme(.dark)    }
 }
 
 #Preview {
