@@ -44,7 +44,7 @@ extension TimeInterval {
 
 
 
-extension ResponseBody {
+extension Weather {
     func isDay() -> Bool {
         if (self.current.dt >= self.current.sunrise && self.current.dt <= self.current.sunset) {
             return true

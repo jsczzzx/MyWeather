@@ -12,17 +12,35 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var locationManager = LocationManager()
     var weatherManager = WeatherManager()
+    var cityNameManager = CityNameManager()
 
-    @State var weather: ResponseBody?
-    @State var city: String?
+    @State var weather: Weather?
+    @State var weather1: Weather?
+    @State var weather2: Weather?
+
+    @State var cityName: String?
     @State private var refreshID = UUID() // Add a State variable to trigger refresh
+    @State private var refreshID1 = UUID() // Add a State variable to trigger refresh
+    @State private var refreshID2 = UUID() // Add a State variable to trigger refresh
+
     
     var body: some View {
         VStack {
             if let location = locationManager.location {
-                if let weather = weather, let city = city {
-                    WeatherView(weather: weather, city: city )
-                        .id(refreshID) // Use the State variable to trigger refresh
+                if let weather = weather,let weather1 = weather1, let weather2 = weather2, let cityName = cityName {
+                    
+                    TabView() {
+                        WeatherView(weather: weather, city: cityName )
+                            .id(refreshID)
+                        WeatherView(weather: weather1, city: "Hangzhou" )
+                            .id(refreshID1)
+                        WeatherView(weather: weather2, city: "Beijing" )
+                            .id(refreshID2)
+                    }
+                    .tabViewStyle(PageTabViewStyle())
+                    .edgesIgnoringSafeArea(.all)
+
+
                 } else {
                     LoadingView()
                         .onAppear {
@@ -30,7 +48,10 @@ struct ContentView: View {
                             Task {
                                 do {
                                     weather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
-                                    city = try await weatherManager.getCurrentCity(latitude: location.latitude, longitude: location.longitude)
+                                    weather1 = try await weatherManager.getCurrentWeather(latitude: 30, longitude: 120)
+                                    weather2 = try await weatherManager.getCurrentWeather(latitude: 39.9042, longitude: 116.4074)
+
+                                    cityName = try await cityNameManager.getCurrentCityName(latitude: location.latitude, longitude: location.longitude)
                                 } catch {
                                     print("Error getting initial weather: \(error)")
                                 }
@@ -67,8 +88,19 @@ struct ContentView: View {
             do {
                 guard let location = locationManager.location else { return }
                 try await weather = weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
-                try await city = weatherManager.getCurrentCity(latitude: location.latitude, longitude: location.longitude)
+                try await cityName = cityNameManager.getCurrentCityName(latitude: location.latitude, longitude: location.longitude)
                 refreshID = UUID() // Trigger refresh
+                
+                guard let location = locationManager.location else { return }
+                try await weather = weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
+                //try await city = weatherManager.getCurrentCity(latitude: location.latitude, longitude: location.longitude)
+                refreshID1 = UUID() // Trigger refresh
+                
+                guard let location = locationManager.location else { return }
+                try await weather = weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
+                //try await city = weatherManager.getCurrentCity(latitude: location.latitude, longitude: location.longitude)
+                refreshID2 = UUID() // Trigger refresh
+
             } catch {
                 print("Error getting weather: \(error)")
             }

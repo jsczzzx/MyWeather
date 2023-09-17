@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct WeatherView: View {
-    var weather: ResponseBody
+    var weather: Weather
     var city: String
     @State var currentDate = Date()
+    @State var currentCity = ""
 
     
     var body: some View {
@@ -27,7 +28,7 @@ struct WeatherView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(city)
                         .bold().font(.title)
-
+                    
                     Text("\((currentDate + TimeInterval(weather.timezone_offset)-TimeInterval(TimeZone.current.secondsFromGMT())).formatted(.dateTime.month().day().hour().minute().second()))")
                         .fontWeight(.light)
                 }
@@ -41,7 +42,7 @@ struct WeatherView: View {
                     // Make sure to add the timer to the run loop
                     RunLoop.current.add(timer, forMode: .common)
                 }
-
+                
                 VStack {
                     HStack {
                         Image(weather.toWeatherIcon(day: -1))
@@ -67,24 +68,24 @@ struct WeatherView: View {
                                 WeatherRow(logo: "sunrise", name: "Sunrise", value: "\(weather.current.sunrise.toHM())")
                                 WeatherRow(logo: "sunset", name: "Sunset", value: "\(weather.current.sunset.toHM())")
                             }
-
+                            
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
                         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40.0))
                         
-
+                        
                         
                         VStack(alignment: .leading, spacing: 0) {
-
+                            
                             DailyRow(weather: weather, day: 0)
                             
                             DailyRow(weather: weather, day: 1)
-
+                            
                             DailyRow(weather: weather, day: 2)
-
+                            
                             DailyRow(weather: weather, day: 3)
-
+                            
                             DailyRow(weather: weather, day: 4)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -96,19 +97,45 @@ struct WeatherView: View {
                         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40.0)
                         )
                         
-
+                        
                         
                         Spacer()
                     }
                     
-
+                    
                 }
                 
-                VStack {
-                    //Spacer()
-                    
+                /*TabView() {
+                    Text("111111111111")
+                    Text("222222222222")
+                    Text("333333333333")
+
+                }*/
+                .tabViewStyle(.page)
+                /*VStack() {
+                    Button() {
+                        print("Button tapped!")
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .renderingMode(.template)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width:50)
+                            .foregroundStyle(.white)
+
+                    }
 
                 }
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .center)*/
+                /*TabView {
+                    Text("First")
+                    Text("Second")
+                    Text("Third")
+                    Text("Fourth")
+                }
+                .tabViewStyle(.page)*/
+
                 
             }
             .padding()

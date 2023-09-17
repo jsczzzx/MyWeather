@@ -14,7 +14,7 @@ let screenHeight = screenSize.height
 struct DailyRow: View {
     
 
-    var weather: ResponseBody
+    var weather: Weather
     var day: Int
     
     var body: some View {
