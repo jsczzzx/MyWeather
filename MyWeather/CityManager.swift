@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+class CityManager {
+
+}
+
+struct City: Codable {
+    var country: String
+    var name: String
+    var lat: Double
+    var lon: Double
+}

@@ -8,6 +8,7 @@
 import Foundation
 
 var previewWeather: Weather = load("weatherData.json")
+var cities: City = load("cityData.json")
 
 
 

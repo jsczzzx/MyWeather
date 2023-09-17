@@ -10,19 +10,20 @@ import SwiftUI
 
 
 struct ContentView: View {
-    @StateObject var locationManager = LocationManager()
+    @StateObject private var locationManager = LocationManager()
     var weatherManager = WeatherManager()
     var cityNameManager = CityNameManager()
 
-    @State var weather: Weather?
-    @State var weather1: Weather?
-    @State var weather2: Weather?
+    @State private var weather: Weather?
+    @State private var weather1: Weather?
+    @State private var weather2: Weather?
 
-    @State var cityName: String?
+    @State private var cityName: String?
     @State private var refreshID = UUID() // Add a State variable to trigger refresh
     @State private var refreshID1 = UUID() // Add a State variable to trigger refresh
     @State private var refreshID2 = UUID() // Add a State variable to trigger refresh
 
+    //@State private var cities: City
     
     var body: some View {
         VStack {
