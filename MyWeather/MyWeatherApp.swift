@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+//var cities: [Location]?
+
 @main
 struct MyWeatherApp: App {
     var body: some Scene {
