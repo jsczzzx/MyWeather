@@ -112,7 +112,7 @@ struct WeatherView: View {
 
                 }*/
                 .tabViewStyle(.page)
-                /*VStack() {
+                VStack() {
                     Button() {
                         print("Button tapped!")
                     } label: {
@@ -127,7 +127,7 @@ struct WeatherView: View {
 
                 }
                 .padding()
-                .frame(maxWidth: .infinity, alignment: .center)*/
+                .frame(maxWidth: .infinity, alignment: .center)
                 /*TabView {
                     Text("First")
                     Text("Second")
