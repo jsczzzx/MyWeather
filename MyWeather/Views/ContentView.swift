@@ -40,10 +40,10 @@ struct ContentView: View {
                 if isLoaded {
                     TabView() {
                         WeatherView(weather: currentWeather, city: currentCityName)
-                            .id(currentID)
+                            .tag(currentID)
                         ForEach(0..<weathers.count) { i in
                             WeatherView(weather: weathers[i], city: cities[i].name )
-                                .id(refreshIds[i])
+                                .tag(refreshIds[i])
                         }
                     }
                     .tabViewStyle(PageTabViewStyle())
