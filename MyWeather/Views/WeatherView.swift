@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct WeatherView: View {
-    var weather: Weather
-    var city: String
+    @State var weather: Weather
+    @State var city: String
     @State var currentDate = Date()
     @State var currentCity = ""
 
