@@ -29,6 +29,7 @@ struct ContentView: View {
     @State var currentID = UUID()
     
     @State var isLoaded = false
+    @State var showSearchView = false
     
     //@State var cities: [Location]?
     
@@ -102,16 +103,20 @@ struct ContentView: View {
                 
                 VStack() {
                     Spacer()
-                    Button() {
-                        print("Button tapped!")
-                    } label: {
+                    
+                    
+                    Button(action: {
+                        showSearchView.toggle()
+                    }) {
                         Image(systemName: "plus.circle.fill")
                             .renderingMode(.template)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width:50)
                             .foregroundStyle(.white)
-                        
+                    }
+                    .sheet(isPresented: $showSearchView) {
+                        SearchView()
                     }
                     
                 }

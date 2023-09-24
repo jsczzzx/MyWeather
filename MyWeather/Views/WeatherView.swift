@@ -106,22 +106,6 @@ struct WeatherView: View {
                     
                 }
                 
-                /*TabView() {
-                    Text("111111111111")
-                    Text("222222222222")
-                    Text("333333333333")
-
-                }*/
-                .tabViewStyle(.page)
-
-                /*TabView {
-                    Text("First")
-                    Text("Second")
-                    Text("Third")
-                    Text("Fourth")
-                }
-                .tabViewStyle(.page)*/
-
                 
             }
             .padding()
