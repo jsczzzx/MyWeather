@@ -35,67 +35,90 @@ struct ContentView: View {
 
     
     var body: some View {
-        VStack {
-            if let location = locationManager.location {
-                if isLoaded {
-                    TabView() {
-                        WeatherView(weather: currentWeather, city: currentCityName)
-                            .tag(currentID)
-                        ForEach(0..<weathers.count) { i in
-                            WeatherView(weather: weathers[i], city: cities[i].name )
-                                .tag(refreshIds[i])
+        ZStack {
+            VStack {
+                if let location = locationManager.location {
+                    if isLoaded {
+                        TabView() {
+                            WeatherView(weather: currentWeather, city: currentCityName)
+                                .tag(currentID)
+                            ForEach(0..<weathers.count) { i in
+                                WeatherView(weather: weathers[i], city: cities[i].name )
+                                    .tag(refreshIds[i])
+                            }
                         }
-                    }
-                    .tabViewStyle(PageTabViewStyle())
-                    .edgesIgnoringSafeArea(.all)
-
-
-                } else {
-                    LoadingView()
-                        .onAppear {
-                            Task {
-                                do {
-                                    currentWeather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
-                                    currentCityName = try await cityNameManager.getCurrentCityName(latitude: location.latitude, longitude: location.longitude)
-                                    currentID = UUID()
-                                    for i in 0..<cities.count {
-                                        weathers.append(try await weatherManager.getCurrentWeather(latitude: Double(cities[i].lat)!, longitude: Double(cities[i].lng)!))
-                                        refreshIds.append(UUID())
-                                        
+                        .tabViewStyle(PageTabViewStyle())
+                        .edgesIgnoringSafeArea(.all)
+                        
+                        
+                    } else {
+                        LoadingView()
+                            .onAppear {
+                                Task {
+                                    do {
+                                        currentWeather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
+                                        currentCityName = try await cityNameManager.getCurrentCityName(latitude: location.latitude, longitude: location.longitude)
+                                        currentID = UUID()
+                                        for i in 0..<cities.count {
+                                            weathers.append(try await weatherManager.getCurrentWeather(latitude: Double(cities[i].lat)!, longitude: Double(cities[i].lng)!))
+                                            refreshIds.append(UUID())
+                                            
+                                        }
+                                    } catch {
+                                        print("Error getting initial weather: \(error)")
                                     }
-                                } catch {
-                                    print("Error getting initial weather: \(error)")
+                                    isLoaded = true
+                                    
                                 }
-                                isLoaded = true
-
-                            }
-
-                            // Trigger the first refresh immediately
-                            //refreshData()
                                 
-                            // Start the repeating timer
-                            let timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
-                                refreshData(location: location)
+                                // Trigger the first refresh immediately
+                                //refreshData()
+                                
+                                // Start the repeating timer
+                                let timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+                                    refreshData(location: location)
+                                }
+                                RunLoop.current.add(timer, forMode: .common)
+                                
                             }
-                            RunLoop.current.add(timer, forMode: .common)
+                        
                         
                     }
-
-
-                }
-            } else {
-                if locationManager.isLoading {
-                    LoadingView()
                 } else {
-                    LoadingView()
-                        .onAppear {
-                            locationManager.requestLocation()
-                        }
+                    if locationManager.isLoading {
+                        LoadingView()
+                    } else {
+                        LoadingView()
+                            .onAppear {
+                                locationManager.requestLocation()
+                            }
+                    }
                 }
             }
+            .background(Color(hue: 0.679, saturation: 0.833, brightness: 0.604))
+            .preferredColorScheme(.dark)
+            
+            if isLoaded {
+                
+                VStack() {
+                    Spacer()
+                    Button() {
+                        print("Button tapped!")
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .renderingMode(.template)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width:50)
+                            .foregroundStyle(.white)
+                        
+                    }
+                    
+                }
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .center)
+            }
         }
-        .background(Color(hue: 0.679, saturation: 0.833, brightness: 0.604))
-        .preferredColorScheme(.dark)
     }
     
     // Function to refresh weather and city data

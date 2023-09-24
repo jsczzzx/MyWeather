@@ -65,8 +65,9 @@ struct WeatherView: View {
                                 WeatherRow(logo: "drop", name: "Humidity", value: "\(weather.current.humidity) %")
                             }
                             HStack(spacing: 20) {
-                                WeatherRow(logo: "sunrise", name: "Sunrise", value: "\(weather.current.sunrise.toHM())")
-                                WeatherRow(logo: "sunset", name: "Sunset", value: "\(weather.current.sunset.toHM())")
+                                WeatherRow(logo: "sunrise", name: "Sunrise", value: "\(TimeInterval(weather.current.sunrise + TimeInterval(weather.timezone_offset) - TimeInterval(TimeZone.current.secondsFromGMT())).toHM())")
+                                WeatherRow(logo: "sunset", name: "Sunset", value: "\(TimeInterval(weather.current.sunset + TimeInterval(weather.timezone_offset) - TimeInterval(TimeZone.current.secondsFromGMT())).toHM())")
+                                
                             }
                             
                         }
@@ -112,22 +113,7 @@ struct WeatherView: View {
 
                 }*/
                 .tabViewStyle(.page)
-                VStack() {
-                    Button() {
-                        print("Button tapped!")
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .renderingMode(.template)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width:50)
-                            .foregroundStyle(.white)
 
-                    }
-
-                }
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .center)
                 /*TabView {
                     Text("First")
                     Text("Second")
