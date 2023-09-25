@@ -7,10 +7,23 @@
 
 import SwiftUI
 
+
 struct SearchView: View {
+    @State var cityName = ""
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .center) {
+            //Spacer()
+            TextField("Enter city name to search", text: $cityName)
+                .padding()
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, alignment: .center)
+        .background(.ultraThinMaterial)
+        .foregroundColor(.white)
+
     }
+    
 }
 
 #Preview {

@@ -117,6 +117,8 @@ struct ContentView: View {
                     }
                     .sheet(isPresented: $showSearchView) {
                         SearchView()
+                            .presentationBackground(.clear)
+
                     }
                     
                 }

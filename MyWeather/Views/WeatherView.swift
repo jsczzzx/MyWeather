@@ -74,6 +74,8 @@ struct WeatherView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
                         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40.0))
+                        //.blendMode(.hardLight)
+
                         
                         
                         
@@ -95,8 +97,8 @@ struct WeatherView: View {
                         .foregroundColor(.white)
                         //.background(.white)
                         //.cornerRadius(40)
-                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40.0)
-                        )
+                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40.0))
+                        //.blendMode(.hardLight)
                         
                         
                         
