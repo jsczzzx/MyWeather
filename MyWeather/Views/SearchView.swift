@@ -10,8 +10,9 @@ import SwiftUI
 
 struct SearchView: View {
     @State var cityName = ""
+    @Binding var showSearchView: Bool
     
-    let names = ["Holly", "Josh", "Rhonda", "Ted","Ada", "Turing", "Ampere", "Renxun","Vega", "RTX", "Honda", "Toyota", "Lovelace", "BMW", "Intel", "Nvidia", "AMD", "RDNA", "Ray", "Gigabyte", "MSI", "Asrock", "Asus"]
+    //let names = ["Holly", "Josh", "Rhonda", "Ted","Ada", "Turing", "Ampere", "Renxun","Vega", "RTX", "Honda", "Toyota", "Lovelace", "BMW", "Intel", "Nvidia", "AMD", "RDNA", "Ray", "Gigabyte", "MSI", "Asrock", "Asus"]
 
 
     var body: some View {
@@ -19,10 +20,19 @@ struct SearchView: View {
             //Spacer()
             List {
                 ForEach(searchResults, id: \.self.id) { city in
-                    NavigationLink {
+                    /*VStack {
                         Text("\(city.city), \(city.admin_name), \(city.iso3)")
-                    } label: {
-                        Text("\(city.city), \(city.admin_name), \(city.iso3)")
+                    }*/
+                    Button("\(city.city), \(city.admin_name), \(city.iso3)") {
+                        print("\(city.city), \(city.admin_name), \(city.iso3)")
+                        for iter in cities {
+                            if iter.id == city.id {
+                                return
+                            }
+                        }
+                        cities.append(city)
+                        showSearchView.toggle()
+                        
                     }
                 }
             }
@@ -51,6 +61,6 @@ struct SearchView: View {
     
 }
 
-#Preview {
-    SearchView()
-}
+/*#Preview {
+    SearchView(showSearchView: true)
+}*/

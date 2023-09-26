@@ -14,19 +14,27 @@ struct Location {
     var lon: Double
 }
 
+var weatherManager = WeatherManager()
+var cityNameManager = CityNameManager()
+
+
+
 
 struct ContentView: View {
     @StateObject var locationManager = LocationManager()
-    var weatherManager = WeatherManager()
-    var cityNameManager = CityNameManager()
 
-    
+
     @State var weathers: [Weather] = []
-    @State var refreshIds: [UUID] = []
+    //@State var refreshIds: [UUID] = []
+
+
     
     @State var currentWeather = previewWeather
     @State var currentCityName = ""
-    @State var currentID = UUID()
+    //@State var currentID = UUID()
+    
+    @State var selectedTabIndex: Int = -1
+
     
     @State var isLoaded = false
     @State var showSearchView = false
@@ -40,12 +48,12 @@ struct ContentView: View {
             VStack {
                 if let location = locationManager.location {
                     if isLoaded {
-                        TabView() {
+                        TabView(selection: $selectedTabIndex) {
                             WeatherView(weather: currentWeather, city: currentCityName)
-                                .tag(currentID)
-                            ForEach(0..<weathers.count) { i in
+                                .tag(-1)
+                            ForEach(weathers.indices, id: \.self) { i in
                                 WeatherView(weather: weathers[i], city: cities[i].city )
-                                    .tag(refreshIds[i])
+                                    .tag(i)
                             }
                         }
                         .tabViewStyle(PageTabViewStyle())
@@ -59,11 +67,10 @@ struct ContentView: View {
                                     do {
                                         currentWeather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
                                         currentCityName = try await cityNameManager.getCurrentCityName(latitude: location.latitude, longitude: location.longitude)
-                                        currentID = UUID()
+                                        //currentID = UUID()
                                         for i in 0..<cities.count {
                                             weathers.append(try await weatherManager.getCurrentWeather(latitude: cities[i].lat, longitude: cities[i].lng))
-                                            refreshIds.append(UUID())
-                                            
+                                            //refreshIds.append(UUID())
                                         }
                                     } catch {
                                         print("Error getting initial weather: \(error)")
@@ -115,8 +122,12 @@ struct ContentView: View {
                             .frame(width:50)
                             .foregroundStyle(.white)
                     }
-                    .sheet(isPresented: $showSearchView) {
-                        SearchView()
+                    .sheet(isPresented: $showSearchView, onDismiss: ({
+                        refreshData(location: locationManager.location!)
+                        selectedTabIndex = weathers.count
+                        
+                    })) {
+                        SearchView(showSearchView: $showSearchView)
                             .presentationBackground(.clear)
 
                     }
@@ -135,12 +146,20 @@ struct ContentView: View {
             do {
                 currentWeather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
                 currentCityName = try await cityNameManager.getCurrentCityName(latitude: location.latitude, longitude: location.longitude)
-                currentID = UUID()
-                for i in 0..<cities.count {
-                    weathers[i] = try await weatherManager.getCurrentWeather(latitude: cities[i].lat, longitude: cities[i].lng)
-                    refreshIds[i] = UUID()
+                //currentID = UUID()
+                
+                if (location != nil) {
                     
-                }
+                    for i in 0..<weathers.count {
+                        weathers[i] = try await weatherManager.getCurrentWeather(latitude: cities[i].lat, longitude: cities[i].lng)
+                        //refreshIds[i] = UUID()
+                        
+                    }
+                    
+                    for i in weathers.count..<cities.count {
+                        weathers.append(try await weatherManager.getCurrentWeather(latitude: cities[i].lat, longitude: cities[i].lng))
+                        //refreshIds.append(UUID())
+                    }}
             } catch {
                 print("Error getting initial weather: \(error)")
             }
