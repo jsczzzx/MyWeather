@@ -111,26 +111,46 @@ struct ContentView: View {
                 VStack() {
                     Spacer()
                     
-                    
-                    Button(action: {
-                        showSearchView.toggle()
-                    }) {
-                        Image(systemName: "plus.circle.fill")
-                            .renderingMode(.template)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width:50)
-                            .foregroundStyle(.white)
-                    }
-                    .sheet(isPresented: $showSearchView, onDismiss: ({
-                        refreshData(location: locationManager.location!)
-                        selectedTabIndex = weathers.count
-                        
-                    })) {
-                        SearchView(showSearchView: $showSearchView)
-                            .presentationBackground(.clear)
+                    HStack() {
+                        Spacer()
 
+                        Button(action: {
+                            showSearchView.toggle()
+                        }) {
+                            Image(systemName: "plus.circle.fill")
+                                .renderingMode(.template)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width:50)
+                                .foregroundStyle(.white)
+                        }
+                        .sheet(isPresented: $showSearchView, onDismiss: ({
+                            refreshData(location: locationManager.location!)
+                            selectedTabIndex = weathers.count
+                            
+                        })) {
+                            SearchView(showSearchView: $showSearchView)
+                                .presentationBackground(.clear)
+
+                        }
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            //showSearchView.toggle()
+                            
+                        }) {
+                            Image(systemName: "minus.circle.fill")
+                                .renderingMode(.template)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width:50)
+                                .foregroundStyle(.white)
+                        }
+                        
+                        Spacer()
                     }
+                    
                     
                 }
                 .padding()

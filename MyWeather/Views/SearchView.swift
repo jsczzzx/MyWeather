@@ -23,8 +23,8 @@ struct SearchView: View {
                     /*VStack {
                         Text("\(city.city), \(city.admin_name), \(city.iso3)")
                     }*/
-                    Button("\(city.city), \(city.admin_name), \(city.iso3)") {
-                        print("\(city.city), \(city.admin_name), \(city.iso3)")
+                    Button("\(city.city_ascii), \(city.admin_name), \(city.iso3)") {
+                        print("\(city.city_ascii), \(city.admin_name), \(city.iso3)")
                         for iter in cities {
                             if iter.id == city.id {
                                 return
@@ -53,7 +53,7 @@ struct SearchView: View {
             return []
         } else {
             let res = cityList.filter {
-                $0.city.lowercased().hasPrefix(cityName.lowercased())
+                $0.city_ascii.lowercased().hasPrefix(cityName.lowercased())
             }
             return Array(res[0..<min(20, res.count)])
         }
