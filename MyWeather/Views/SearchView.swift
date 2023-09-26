@@ -18,11 +18,11 @@ struct SearchView: View {
         NavigationStack {
             //Spacer()
             List {
-                ForEach(searchResults, id: \.self) { name in
+                ForEach(searchResults, id: \.self.name) { city in
                     NavigationLink {
-                        Text(name)
+                        Text("\(city.name), \(city.country)")
                     } label: {
-                        Text(name)
+                        Text("\(city.name), \(city.country)")
                     }
                 }
             }
@@ -38,12 +38,14 @@ struct SearchView: View {
 
     }
     
-    var searchResults: [String] {
+    var searchResults: [City] {
         if cityName.isEmpty {
             return []
         } else {
-            let res = Array(names.filter { $0.contains(cityName) })
-            return Array(res[0..<min(res.count, 20)])
+            let res = cityList.filter {
+                $0.name.lowercased().hasPrefix(cityName.lowercased())
+            }
+            return Array(res[0..<min(20, res.count)])
         }
     }
     
