@@ -29,11 +29,12 @@ struct ContentView: View {
 
 
     
-    @State var currentWeather = previewWeather
-    @State var currentCityName = ""
+    @State var localWeather = previewWeather
+    @State var localCityName = ""
+    @State var currentId = -1
     //@State var currentID = UUID()
     
-    @State var selectedTabIndex: Int = -1
+    @State var tabIndex: Int = -1
 
     
     @State var isLoaded = false
@@ -48,16 +49,20 @@ struct ContentView: View {
             VStack {
                 if let location = locationManager.location {
                     if isLoaded {
-                        TabView(selection: $selectedTabIndex) {
-                            WeatherView(weather: currentWeather, city: currentCityName)
+                        TabView(selection: $tabIndex) {
+                            WeatherView(weather: localWeather, city: localCityName)
                                 .tag(-1)
                             ForEach(weathers.indices, id: \.self) { i in
                                 WeatherView(weather: weathers[i], city: cities[i].city )
                                     .tag(i)
                             }
                         }
+                        .onChange(of: tabIndex) { newValue in
+                             print("New page: \(newValue)")
+                        }
                         .tabViewStyle(PageTabViewStyle())
                         .edgesIgnoringSafeArea(.all)
+                        .id(weathers.count)
                         
                         
                     } else {
@@ -65,8 +70,8 @@ struct ContentView: View {
                             .onAppear {
                                 Task {
                                     do {
-                                        currentWeather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
-                                        currentCityName = try await cityNameManager.getCurrentCityName(latitude: location.latitude, longitude: location.longitude)
+                                        localWeather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
+                                        localCityName = try await cityNameManager.getCurrentCityName(latitude: location.latitude, longitude: location.longitude)
                                         //currentID = UUID()
                                         for i in 0..<cities.count {
                                             weathers.append(try await weatherManager.getCurrentWeather(latitude: cities[i].lat, longitude: cities[i].lng))
@@ -103,7 +108,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .background(Color(hue: 0.679, saturation: 0.833, brightness: 0.604))
+            .background(Color.clear)
             .preferredColorScheme(.dark)
             
             if isLoaded {
@@ -126,7 +131,8 @@ struct ContentView: View {
                         }
                         .sheet(isPresented: $showSearchView, onDismiss: ({
                             refreshData(location: locationManager.location!)
-                            selectedTabIndex = weathers.count
+                            //tabIndex = weathers.count
+                            //currentId = weathers.count
                             
                         })) {
                             SearchView(showSearchView: $showSearchView)
@@ -138,7 +144,18 @@ struct ContentView: View {
                         
                         Button(action: {
                             //showSearchView.toggle()
-                            
+                            if (tabIndex != -1) {
+                                currentId = tabIndex
+                                tabIndex = tabIndex - 1
+                                //print(currentId)
+    
+                                //print(cities[currentId])
+                                cities.remove(at: currentId)
+                                weathers.remove(at: currentId)
+                                //print(cities)
+
+                                currentId = currentId - 1
+                            }
                         }) {
                             Image(systemName: "minus.circle.fill")
                                 .renderingMode(.template)
@@ -164,8 +181,8 @@ struct ContentView: View {
         var i = 0
         Task {
             do {
-                currentWeather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
-                currentCityName = try await cityNameManager.getCurrentCityName(latitude: location.latitude, longitude: location.longitude)
+                localWeather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
+                localCityName = try await cityNameManager.getCurrentCityName(latitude: location.latitude, longitude: location.longitude)
                 //currentID = UUID()
                 
                 if (location != nil) {

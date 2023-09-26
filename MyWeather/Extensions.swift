@@ -116,3 +116,18 @@ extension Weather {
     }
     
 }
+
+extension Array {
+    func deepRemove(at index: Index) -> [Element] {
+        var newArray: [Element] = []
+        //var i = 0
+        for i in 0..<self.count {
+            if (i != index) {
+                newArray.append(self[i])
+            }
+        }
+        //newArray.append(self[2])
+        //newArray.append(self[1])
+        return newArray
+    }
+}
