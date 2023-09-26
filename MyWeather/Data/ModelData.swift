@@ -8,7 +8,7 @@
 import Foundation
 
 var previewWeather: Weather = load("weatherData.json")
-var cityList: [City] = loadArray("cityData.json")
+var cityList: [City] = loadArray("worldCities.json")
 
 var cities: [City] = Array(cityList[0...2])
 
@@ -57,3 +57,4 @@ func loadArray<T: Decodable>(_ filename: String) -> [T] {
         fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
     }
 }
+

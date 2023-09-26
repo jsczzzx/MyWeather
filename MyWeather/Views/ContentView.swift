@@ -44,7 +44,7 @@ struct ContentView: View {
                             WeatherView(weather: currentWeather, city: currentCityName)
                                 .tag(currentID)
                             ForEach(0..<weathers.count) { i in
-                                WeatherView(weather: weathers[i], city: cities[i].name )
+                                WeatherView(weather: weathers[i], city: cities[i].city )
                                     .tag(refreshIds[i])
                             }
                         }
@@ -61,7 +61,7 @@ struct ContentView: View {
                                         currentCityName = try await cityNameManager.getCurrentCityName(latitude: location.latitude, longitude: location.longitude)
                                         currentID = UUID()
                                         for i in 0..<cities.count {
-                                            weathers.append(try await weatherManager.getCurrentWeather(latitude: Double(cities[i].lat)!, longitude: Double(cities[i].lng)!))
+                                            weathers.append(try await weatherManager.getCurrentWeather(latitude: cities[i].lat, longitude: cities[i].lng))
                                             refreshIds.append(UUID())
                                             
                                         }
@@ -137,7 +137,7 @@ struct ContentView: View {
                 currentCityName = try await cityNameManager.getCurrentCityName(latitude: location.latitude, longitude: location.longitude)
                 currentID = UUID()
                 for i in 0..<cities.count {
-                    weathers[i] = try await weatherManager.getCurrentWeather(latitude: Double(cities[i].lat)!, longitude: Double(cities[i].lng)!)
+                    weathers[i] = try await weatherManager.getCurrentWeather(latitude: cities[i].lat, longitude: cities[i].lng)
                     refreshIds[i] = UUID()
                     
                 }

@@ -18,11 +18,11 @@ struct SearchView: View {
         NavigationStack {
             //Spacer()
             List {
-                ForEach(searchResults, id: \.self.name) { city in
+                ForEach(searchResults, id: \.self.id) { city in
                     NavigationLink {
-                        Text("\(city.name), \(city.country)")
+                        Text("\(city.city), \(city.admin_name), \(city.iso3)")
                     } label: {
-                        Text("\(city.name), \(city.country)")
+                        Text("\(city.city), \(city.admin_name), \(city.iso3)")
                     }
                 }
             }
@@ -43,7 +43,7 @@ struct SearchView: View {
             return []
         } else {
             let res = cityList.filter {
-                $0.name.lowercased().hasPrefix(cityName.lowercased())
+                $0.city.lowercased().hasPrefix(cityName.lowercased())
             }
             return Array(res[0..<min(20, res.count)])
         }
