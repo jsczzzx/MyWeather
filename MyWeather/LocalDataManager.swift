@@ -11,7 +11,18 @@ import Foundation
 class LocalDataManager {
     let userDefaults = UserDefaults.standard
     
-    func get() -> [Int]? {
+    func checkUsingTime() -> Int {
+        if let time = UserDefaults.standard.object(forKey: "time") as? Int {
+            UserDefaults.standard.set(time + 1, forKey: "time")
+            return time
+        } else {
+            UserDefaults.standard.set(1, forKey: "time")
+            return 0
+        }
+        
+    }
+    
+    func get() -> [Int] {
         let savedIndices = (userDefaults.array(forKey: "indices") ?? []) as [Int]
         return savedIndices
     }
@@ -24,9 +35,12 @@ class LocalDataManager {
     
     func remove(index : Int) {
         var savedIndices = (userDefaults.array(forKey: "indices") ?? []) as [Int]
+        print(savedIndices)
         if index >= savedIndices.count {
+            print("too much!")
             return
         } else {
+            print("\(cityList[savedIndices[index]].city_ascii) removed")
             savedIndices.remove(at: index)
             userDefaults.set(savedIndices, forKey: "indices")
         }

@@ -77,8 +77,11 @@ struct ContentView: View {
                                             //print(savedIndices)
                                         }
                                         if cities.isEmpty {
-                                            cities = Array(cityList[0...4])
-                                            localDataManager.create(indices: [0,1])
+                                            let time = localDataManager.checkUsingTime()
+                                            if time == 0 {
+                                                cities = [cityList[0], cityList[11], cityList[35], cityList[147]]
+                                                localDataManager.create(indices: [0,11,35,147])
+                                            }
                                         }
                                         //localDataManager.
                                         localWeather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
@@ -161,7 +164,10 @@ struct ContentView: View {
                                 //print(currentId)
     
                                 //print(cities[currentId])
-                                localDataManager.remove(index: cities[currentId].id)
+                                //print("first: \(localDataManager.get())")
+                                localDataManager.remove(index: currentId)
+                                //print("then: \(localDataManager.get())")
+
                                 cities.remove(at: currentId)
                                 weathers.remove(at: currentId)
                                 //print(cities)
