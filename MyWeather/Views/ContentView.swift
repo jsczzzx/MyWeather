@@ -14,8 +14,9 @@ struct Location {
     var lon: Double
 }
 
-var weatherManager = WeatherManager()
-var cityNameManager = CityNameManager()
+let weatherManager = WeatherManager()
+let cityNameManager = CityNameManager()
+let localDataManager = LocalDataManager()
 
 
 
@@ -70,6 +71,16 @@ struct ContentView: View {
                             .onAppear {
                                 Task {
                                     do {
+                                        let savedIndices = localDataManager.get()
+                                        for index in savedIndices ?? [] {
+                                            cities.append(cityList[index])
+                                            //print(savedIndices)
+                                        }
+                                        if cities.isEmpty {
+                                            cities = Array(cityList[0...4])
+                                            localDataManager.create(indices: [0,1])
+                                        }
+                                        //localDataManager.
                                         localWeather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
                                         localCityName = try await cityNameManager.getCurrentCityName(latitude: location.latitude, longitude: location.longitude)
                                         //currentID = UUID()
@@ -88,7 +99,7 @@ struct ContentView: View {
                                 //refreshData()
                                 
                                 // Start the repeating timer
-                                let timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+                                let timer = Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { _ in
                                     refreshData(location: location)
                                 }
                                 RunLoop.current.add(timer, forMode: .common)
@@ -150,6 +161,7 @@ struct ContentView: View {
                                 //print(currentId)
     
                                 //print(cities[currentId])
+                                localDataManager.remove(index: cities[currentId].id)
                                 cities.remove(at: currentId)
                                 weathers.remove(at: currentId)
                                 //print(cities)

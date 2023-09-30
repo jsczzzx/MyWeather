@@ -10,7 +10,7 @@ import Foundation
 var previewWeather: Weather = load("weatherData.json")
 var cityList: [City] = loadArray("worldCities.json")
 
-var cities: [City] = Array(cityList[0...2])
+var cities =  [City]()
 
 
 

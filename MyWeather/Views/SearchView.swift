@@ -31,6 +31,7 @@ struct SearchView: View {
                             }
                         }
                         cities.append(city)
+                        localDataManager.add(index: city.id)
                         showSearchView.toggle()
                         
                     }
